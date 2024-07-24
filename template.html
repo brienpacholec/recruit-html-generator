@@ -1,0 +1,267 @@
+<html>
+
+<head>
+    <style>
+        hr {
+            display: block;
+            height: 1px;
+            border: 0;
+            border-top: 1px solid #ddd;
+            padding: 0;
+        }
+
+        .player,
+        .photo-and-name,
+        .photo,
+        .name,
+        .position,
+        .hw,
+        .rating {
+            display: flex;
+        }
+
+        .player {
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0px;
+        }
+
+        .player-mobile {
+            display: none;
+        }
+
+        .photo-and-name {
+            flex: 0 0 30em;
+        }
+
+        .player-details {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            margin-left: 20px
+        }
+
+        .name {
+            color: #004B82;
+            text-decoration: none;
+        }
+
+        .name:hover {
+            text-decoration: underline;
+        }
+
+        .position span {
+            border: 1px solid #DDD;
+            padding: 7px;
+            border-radius: 3px;
+            color: #677A86;
+            text-transform: uppercase;
+            width: 50px;
+            text-align: center;
+
+        }
+
+        .star-filled {
+            color: #DBCB1A;
+        }
+
+        .star-grayed {
+            color: #aaaaaa;
+        }
+
+        @media (max-width: 600px) {
+            .player {
+                display: none;
+            }
+
+            .player-mobile {
+                display: flex;
+                flex-direction: row;
+                align-items: start;
+                margin: 20px 0px;
+                padding-left: 10px;
+            }
+
+            .photo-and-name {
+                flex: 0 0 auto;
+            }
+
+            .photo {
+                flex-direction: column;
+            }
+
+            .position {
+                align-self: center;
+            }
+
+            .position span {
+                border: none;
+                padding: 0px;
+                color: #677A86;
+                text-transform: uppercase;
+                width: 50px;
+                text-align: center;
+                font-size: 12px;
+                margin-top: 5px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="recruits"></div>
+
+
+    <script>
+        const data = []
+
+        const recruits = document.getElementById('recruits');
+
+        function addDesktop(recruit) {
+            const player = document.createElement('div');
+            player.classList.add('player');
+
+            const photoAndName = document.createElement('div');
+            photoAndName.classList.add('photo-and-name');
+
+            const photo = document.createElement('div');
+            photo.classList.add('photo');
+            const img = document.createElement('img');
+            img.src = recruit.Photo;
+            img.alt = 'player photo';
+            img.width = 100;
+            if (recruit.Profile) {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', () => {
+                    window.location.href = recruit.Profile;
+                });
+            }
+            photo.appendChild(img);
+
+            const playerDetails = document.createElement('div');
+            playerDetails.classList.add('player-details');
+            const name = document.createElement('a');
+            name.classList.add('name');
+            name.textContent = recruit.Name;
+            name.href = recruit.Profile;
+
+
+            const schoolAndState = document.createElement('span');
+            schoolAndState.classList.add('school-and-state');
+            schoolAndState.textContent = `${recruit.School} (${recruit.State})`;
+            playerDetails.appendChild(name);
+            playerDetails.appendChild(schoolAndState);
+
+            photoAndName.appendChild(photo);
+            photoAndName.appendChild(playerDetails);
+
+            player.appendChild(photoAndName);
+
+            const position = document.createElement('div');
+            position.classList.add('position');
+            const pos = document.createElement('span');
+            pos.textContent = recruit['Pos.'];
+            position.appendChild(pos);
+
+            player.appendChild(position);
+
+            const hw = document.createElement('div');
+            hw.classList.add('hw');
+            hw.textContent = `${recruit.Height} / ${recruit.Weight}`;
+            player.appendChild(hw);
+
+            const rating = document.createElement('div');
+            rating.classList.add('rating');
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement('span');
+                console.log(typeof recruit.Rating);
+                if (i < Number(recruit.Rating)) {
+                    star.classList.add('star-filled');
+                } else {
+                    star.classList.add('star-grayed');
+                }
+                star.textContent = '★';
+                rating.appendChild(star);
+            }
+            player.appendChild(rating);
+
+            recruits.appendChild(player);
+        }
+
+        function addMobile(recruit) {
+            const player = document.createElement('div');
+            player.classList.add('player-mobile');
+
+            const photoAndName = document.createElement('div');
+            photoAndName.classList.add('photo-and-name');
+
+            const photo = document.createElement('div');
+            photo.classList.add('photo');
+            const img = document.createElement('img');
+            img.src = recruit.Photo;
+            img.alt = 'player photo';
+            img.width = 100;
+            if (recruit.Profile) {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', () => {
+                    window.location.href = recruit.Profile;
+                });
+            }
+            photo.appendChild(img);
+
+            const position = document.createElement('div');
+            position.classList.add('position');
+            const pos = document.createElement('span');
+            pos.textContent = recruit['Pos.'];
+            position.appendChild(pos);
+            photo.appendChild(position);
+
+            photoAndName.appendChild(photo);
+
+            const playerDetails = document.createElement('div');
+            playerDetails.classList.add('player-details');
+            const name = document.createElement('a');
+            name.classList.add('name');
+            name.textContent = recruit.Name;
+            name.href = recruit.Profile;
+
+            const schoolAndState = document.createElement('span');
+            schoolAndState.classList.add('school-and-state');
+            schoolAndState.textContent = `${recruit.School} (${recruit.State})`;
+            const hw = document.createElement('span');
+            hw.classList.add('hw');
+            hw.textContent = `${recruit.Height} / ${recruit.Weight}`;
+            const rating = document.createElement('div');
+            rating.classList.add('rating');
+            for (let i = 0; i < 5; i++) {
+                const star = document.createElement('span');
+                if (i < Number(recruit.Rating)) {
+                    star.classList.add('star-filled');
+                } else {
+                    star.classList.add('star-grayed');
+                }
+                star.textContent = '★';
+                rating.appendChild(star);
+            }
+
+            playerDetails.appendChild(name);
+            playerDetails.appendChild(schoolAndState);
+            playerDetails.appendChild(hw);
+            playerDetails.appendChild(rating);
+
+            photoAndName.appendChild(playerDetails);
+
+            player.appendChild(photoAndName);
+
+            recruits.appendChild(player);
+        }
+
+        data.forEach(recruit => {
+            addDesktop(recruit);
+            addMobile(recruit);
+        });
+    </script>
+</body>
+
+</html>

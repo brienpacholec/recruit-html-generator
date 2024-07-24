@@ -1,0 +1,10 @@
+/node_modules
+package-lock.json
+
+# include 2025 folder but not contents
+/2025/*
+/2026/*
+/2027/*
+/2028/*
+
+.DS_Store
